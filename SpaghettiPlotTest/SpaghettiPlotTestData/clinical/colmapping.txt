@@ -1,0 +1,1 @@
+Filename	Category_Code	Column_Number	Data_Label	Data_Label_Source	Controlled_Vocab_Codedata.txt		1	SUBJ_ID		data.txt		2	VISIT_ID		data.txt	Data	9	Disease_Daysdata.txt	Data			
