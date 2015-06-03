@@ -1,0 +1,18 @@
+Assumptions in the following setup steps:
+1. this archive is cloned in the same directory as RInterface (see: https://github.com/UMich-Transmart/RInterface)
+2. the set described in the Rinterface README.md has been successfully completed.
+
+Setting up to use these test (in R)
+
+make sure that you have loaded the following packages:
+transmartRClient (see below and the notes in ../RInterface/bin/installCommands.R)
+ggplot2 (standard R library)
+
+To load transmartRClient (in R)
+
+install.packages(pkgs=c("RCurl", "RJSONIO", "RProtoBuf", "plyr", "hash", "reshape"))
+base <- "../RInterface" # or where ever you have it 
+install.packages(base, repos = NULL, type = "source")
+
+Test (in R)
+library("transmartRClient")
