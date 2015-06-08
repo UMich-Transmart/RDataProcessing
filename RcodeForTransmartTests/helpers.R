@@ -22,7 +22,7 @@ extractFRSRecords <- function(row) {
 	## limit output to only those patients with more the one record; 
 	## for all records, change sizeOfTrace, above, to 1
 	if (length(sout) >= sizeOfTrace) {
-		mapply(function(s,d){addRow(id,s,d)},sout,dout,SIMPLIFY=FALSE)
+		mapply(function(s,d){addRow(id, as.numeric(s), as.numeric(d))},sout,dout,SIMPLIFY=FALSE)
 	}
 }
 
@@ -41,16 +41,17 @@ convertForPlotting <- function(input, minTraceLength=1) {
 	data.frame(outputMatrix)
 }
 
-makeSpaghettiPlot <- function(patients) {
+makeSpaghettiPlot <- function(dataTable, xMin=-100, xMax=7000) {
 	# requires ggplot2
-	#Save the plot as a PDF file and assign the location for the plot#
-
-	#Make the plot#
-	ggplot(patients, aes(x=disease_days, y=frs_total, color=factor(id))) +
+	ggplot(dataTable, 
+	  aes(x=as.numeric(disease_days), y=as.numeric(frs_total), color=factor(id))) +	
 	geom_line(aes(group = factor(id))) + geom_point() +	
-	theme_bw() +
-	geom_smooth(aes(group = 1), size = 2) +	
+	theme(legend.position="none") +
+	coord_cartesian(xlim = c(-20, xMax)) +
+	geom_smooth(aes(group = 1), size = 2, method='loess') +	
 	xlab("Disease Duration (days)") + ylab("ALSFRS-R") +
 	ggtitle("ALSFRS-R by time")
+	
 }
+
 
