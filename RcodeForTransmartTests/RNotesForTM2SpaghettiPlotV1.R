@@ -18,8 +18,8 @@
 myWorkingDirectory <- "/Users/weymouth/Dropbox/ALS/github/RDataProcessing/RcodeForTransmartTests"
 UrlOfServer <- "http://als-transmart.med.umich.edu:8080/transmart"
 
-matchPatternForFrs <- "FRS Score\\\\[[:digit:]]"
-matchPatternForDuration <- "Days Since Onset\\\\[[:digit:]]"
+matchPatternForFrs <- "FRS Score\\\\Visit [[:digit:]]"
+matchPatternForDuration <- "Days Since Onset\\\\Visit [[:digit:]]"
 
 plotOutputDirectoryAndFile <- "~/Desktop/plot.pdf"
 
@@ -39,7 +39,7 @@ source("./helpers.R")
 # Connect to the tranSMART Database server
 # Note: this will print a URL for you to past in the browse and will ask you 
 # to copy the verifier token that is returned in the browser and past it in R
-connectToTransmart(UrLOfServer,use.authentication=TRUE)
+connectToTransmart(UrlOfServer)
 
 # get all studies on the server
 studies <- getStudies()
@@ -53,17 +53,10 @@ print(studies$ontologyTerm.fullName)
 # [5] "\\Private Studies\\ALS_Goutman_V2\\"       
 
 # get study of interest - just to save myself from typing errors
-study <- studies$ontologyTerm.fullName[3]
-
-# verify
-print(study)
-
-# Expected
-# [1] "\\Private Studies\\ALS_Goutman_Basic\\"
+study <- studies$id[3]
 
 #get all concepts for study
-# concepts <- getConcepts(study)
-concepts <- getConcepts("ALS_Goutman_Basic")
+concepts <- getConcepts(study)
 
 # the FRS Scores - indexes
 index1 <- grep(matchPatternForFrs,concepts$fullName)
@@ -97,7 +90,7 @@ observations <- getObservations(study, concept.links = concepts$api.link.self.hr
 summary(observations$observations)
 
 # convert the input to the values for plotting - see helper functions
-patients <- convertForPlotting(observations$observations,minTraceLength=1)
+patients <- convertForPlotting(observations$observations,minTraceLength=2)
 
 # verify
 summary(patients)

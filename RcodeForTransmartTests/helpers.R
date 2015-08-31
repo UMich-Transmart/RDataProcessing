@@ -12,6 +12,7 @@ sizeOfTrace = 1
 
 # a 'helper' function (that uses addRow, above); used to traverse the multiple visits from input
 extractFRSRecords <- function(row) {
+	# this is BAD!!! - fixed values for indexes!
 	id <- row[1]
 	score <- row[2:6]
 	duration <- row[7:11]
@@ -59,4 +60,25 @@ makeSpaghettiPlot <- function(dataTable, xMin=-100, xMax=7000,
 	plot
 }
 
+checkDirection <- function(dataTable) {
+	oldId <<- -1;
+	oldV <<- -1;
+	apply(dataTable,1,checkDirectionOfRow)
+}
 
+checkDirectionOfRow <- function(row) {
+	id = row[1]
+	value = row[2]
+	data = row[3]
+	
+	if (id != oldId) {
+		oldV <<- -1
+		oldId <<- id
+	} else {
+    	if (oldV > value) {
+	    	return (id)
+	    }
+		oldV <<- value
+	}
+	return (NULL)
+}
