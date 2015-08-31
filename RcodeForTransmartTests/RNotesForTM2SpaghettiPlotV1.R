@@ -1,10 +1,21 @@
 # ---------------------
+# Install support code (should only be needed at start and for update)
+# ---------------------
+#
+# Copied from Rinterface/bin/installCommands.R
+
+
+
+# ---------------------
 #  Control Parameters
 # ---------------------
 
-myWorkingDirectory <- "/Users/weymouth/Dropbox/ALS/github/RDataProcessing/RcodeForTransmartTests"
-
+# for home
+# myWorkingDirectory <- "/Users/weymouth/Dropbox/ALS/github/RDataProcessing/RcodeForTransmartTests"
 # UrLOfServer <- "http://localhost:8080/transmart"
+
+# for office
+myWorkingDirectory <- "/Users/weymouth/Dropbox/ALS/github/RDataProcessing/RcodeForTransmartTests"
 UrlOfServer <- "http://als-transmart.med.umich.edu:8080/transmart"
 
 matchPatternForFrs <- "FRS Score\\\\[[:digit:]]"
