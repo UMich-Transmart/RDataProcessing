@@ -41,17 +41,22 @@ convertForPlotting <- function(input, minTraceLength=1) {
 	data.frame(outputMatrix)
 }
 
-makeSpaghettiPlot <- function(dataTable, xMin=-100, xMax=7000) {
+makeSpaghettiPlot <- function(dataTable, xMin=-100, xMax=7000, 
+			plot.subtitle=NULL,plot.title='ALSFRS-R by time') {
 	# requires ggplot2
-	ggplot(dataTable, 
-	  aes(x=as.numeric(disease_days), y=as.numeric(frs_total), color=factor(id))) +	
-	geom_line(aes(group = factor(id))) + geom_point() +	
-	theme(legend.position="none") +
-	coord_cartesian(xlim = c(-20, xMax)) +
-	geom_smooth(aes(group = 1), size = 2, method='loess') +	
-	xlab("Disease Duration (days)") + ylab("ALSFRS-R") +
-	ggtitle("ALSFRS-R by time")
-	
+	plot <- ggplot(dataTable, aes(x=as.numeric(disease_days), y=as.numeric(frs_total), color=factor(id)))
+	plot <- plot + geom_line(aes(group = factor(id))) + geom_point()
+	plot <- plot + theme(legend.position="none")
+	plot <- plot + coord_cartesian(xlim = c(-20, xMax))
+	plot <- plot + geom_smooth(aes(group = 1), size = 2, method='loess')	
+	plot <- plot + xlab("Disease Duration (days)") + ylab("ALSFRS-R")
+	if (is.null(plot.subtitle)) {
+		plot <- plot + ggtitle(plot.title)		
+	}
+	else {
+		plot <- plot + ggtitle(bquote(atop(.(plot.title), atop(italic(.(plot.subtitle))))))
+	}
+	plot
 }
 
 

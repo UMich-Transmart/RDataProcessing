@@ -2,9 +2,10 @@
 #  Control Parameters
 # ---------------------
 
-myWorkingDirectory <- "/Users/weymouth/Dropbox/testathon/ALS/github/RDataProcessing/RcodeForTransmartTests"
+myWorkingDirectory <- "/Users/weymouth/Dropbox/ALS/github/RDataProcessing/RcodeForTransmartTests"
 
-UrLOfServer <- "http://localhost:8080/transmart"
+# UrLOfServer <- "http://localhost:8080/transmart"
+UrlOfServer <- "http://als-transmart.med.umich.edu:8080/transmart"
 
 matchPatternForFrs <- "FRS Score\\\\[[:digit:]]"
 matchPatternForDuration <- "Days Since Onset\\\\[[:digit:]]"
@@ -50,7 +51,8 @@ print(study)
 # [1] "\\Private Studies\\ALS_Goutman_Basic\\"
 
 #get all concepts for study
-concepts <- getConcepts(study)
+# concepts <- getConcepts(study)
+concepts <- getConcepts("ALS_Goutman_Basic")
 
 # the FRS Scores - indexes
 index1 <- grep(matchPatternForFrs,concepts$fullName)
@@ -64,6 +66,18 @@ index3 <- c(index1, index2)
 #verify concepts
 concept3 <- concepts$fullName[index3]
 print(concept3)
+
+# Expect
+#  [1] "\\Private Studies\\ALS_Goutman_Basic\\Flow\\ALS FRS\\FRS Score\\1\\"             
+#  [2] "\\Private Studies\\ALS_Goutman_Basic\\Flow\\ALS FRS\\FRS Score\\2\\"             
+#  [3] "\\Private Studies\\ALS_Goutman_Basic\\Flow\\ALS FRS\\FRS Score\\3\\"             
+#  [4] "\\Private Studies\\ALS_Goutman_Basic\\Flow\\ALS FRS\\FRS Score\\4\\"             
+#  [5] "\\Private Studies\\ALS_Goutman_Basic\\Flow\\ALS FRS\\FRS Score\\5\\"             
+#  [6] "\\Private Studies\\ALS_Goutman_Basic\\Flow\\ALS Diagnosis\\Days Since Onset\\1\\"
+#  [7] "\\Private Studies\\ALS_Goutman_Basic\\Flow\\ALS Diagnosis\\Days Since Onset\\2\\"
+#  [8] "\\Private Studies\\ALS_Goutman_Basic\\Flow\\ALS Diagnosis\\Days Since Onset\\3\\"
+#  [9] "\\Private Studies\\ALS_Goutman_Basic\\Flow\\ALS Diagnosis\\Days Since Onset\\4\\"
+# [10] "\\Private Studies\\ALS_Goutman_Basic\\Flow\\ALS Diagnosis\\Days Since Onset\\5\\"
 
 # get observations
 observations <- getObservations(study, concept.links = concepts$api.link.self.href[index3])
@@ -80,12 +94,10 @@ summary(patients)
 write.csv(patients,"frsdata.csv")
 data <- read.csv("frsdata.csv")
 
-### Plot - this following code is the code I was send for plotting the Spaghetti Plot.
+### Plot - this following code is the code I was sent for plotting the Spaghetti Plot.
 # with slight modifications: out destination, and the grouping for geom_line()
 
-xMin <-20
-xMax <- 7000
 
-pdf(plotOutputDirectoryAndFile,xMin,xMax)
+pdf(plotOutputDirectoryAndFile)
 makeSpaghettiPlot(data)
-dev.off ();
+dev.off()
