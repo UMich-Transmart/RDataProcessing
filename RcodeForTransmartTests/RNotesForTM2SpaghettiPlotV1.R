@@ -18,7 +18,8 @@ myWorkingDirectory <- "/Users/weymouth/Dropbox/ALS/github/RDataProcessing/RcodeF
 matchPatternForFrs <- "FRS Score\\\\Visit [[:digit:]]"
 matchPatternForDuration <- "Days Since Onset\\\\Visit [[:digit:]]"
 
-saveFinalDataFile <- "~/Desktop/frsdata.csv"
+saveLoadFile <- "~/Desktop/observations.save"
+saveFinalDataFile <- "~/Desktop/frsScore.csv"
 plotOutputDirectoryAndFile <- "~/Desktop/plot.pdf"
 
 # --- Simplified Script Steps (in place of the steps below)
@@ -27,8 +28,18 @@ require("ggplot2")
 setwd(myWorkingDirectory)
 source("./helpers.R")
 connectToTransmart(UrlOfServer)
+# (interaction required just above this line)
 study <- findStudy(1)
 observations <- loadPlotData(study, matchPatternForFrs, matchPatternForDuration)
+plotIt(observations, 2, 200)
+save(observations,file=saveLoadFile)
+
+# --- save and load data
+# save(observations,file=saveLoadFile)
+load(saveLoadFile)
+require("ggplot2")
+setwd(myWorkingDirectory)
+source("./helpers.R")
 plotIt(observations, 2, 200)
 
 # --- Script Steps 
