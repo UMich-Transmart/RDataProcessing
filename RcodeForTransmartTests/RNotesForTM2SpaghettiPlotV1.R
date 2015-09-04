@@ -21,6 +21,16 @@ matchPatternForDuration <- "Days Since Onset\\\\Visit [[:digit:]]"
 saveFinalDataFile <- "~/Desktop/frsdata.csv"
 plotOutputDirectoryAndFile <- "~/Desktop/plot.pdf"
 
+# --- Simplified Script Steps (in place of the steps below)
+require("transmartRClient")
+require("ggplot2")
+setwd(myWorkingDirectory)
+source("./helpers.R")
+connectToTransmart(UrlOfServer)
+study <- findStudy(1)
+observations <- loadPlotData(study, matchPatternForFrs, matchPatternForDuration)
+plotIt(observations, 2, 200)
+
 # --- Script Steps 
 
 # get required libraries - NOTE: this assuems that you have installed the pagkages for transmartRClient
@@ -52,7 +62,7 @@ print(studies$ontologyTerm.fullName)
 # [7] "\\Private Studies\\ALS_Goutman_V2_NS\\"    
 
 # get study of interest - just to save myself from typing errors
-study <- studies$id[6]
+study <- studies$id[1]
 
 #get all concepts for study
 concepts <- getConcepts(study)

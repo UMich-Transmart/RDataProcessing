@@ -82,3 +82,38 @@ checkDirectionOfRow <- function(row) {
 	}
 	return (NULL)
 }
+
+findStudy <- function(indexForStudy) {
+	studies <- studies <- getStudies()
+	#verify
+	print(studies$ontologyTerm.fullName)
+	study <- studies$id[indexForStudy]
+	print(study)
+	return(study)
+}
+
+loadPlotData <- function(study, matchPatternForFrs, matchPatternForDuration) {
+	print("Getting concepts for Study")
+	concepts <- getConcepts(study)
+	print("Summary of data about all concepts:")
+	print(summary(concepts))
+	# the FRS Scores - indexes
+	index1 <- grep(matchPatternForFrs,concepts$fullName)
+	# the duration - days since onset - indexes
+	index2 <- grep(matchPatternForDuration,concepts$fullName)
+	# both 
+	index3 <- c(index1, index2)
+	print("Showing concepts selected: ")
+	concept3 <- concepts$fullName[index3]
+	print(concept3)
+	print("Getting observation data for selected concepts . . .")
+	observations <- getObservations(study, concept.links = concepts$api.link.self.href[index3])
+	print("Summary of observation data returned: ")
+	print(summary(observations$observations))
+	return (observations)
+}
+
+plotIt <- function(observations, traceLength=2, xLimit=200) {
+	patients <- convertForPlotting(observations$observations,minTraceLength=traceLength)
+	makeSpaghettiPlot(patients, xMax=xLimit)
+}
