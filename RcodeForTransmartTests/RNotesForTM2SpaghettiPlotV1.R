@@ -27,8 +27,13 @@ require("transmartRClient")
 require("ggplot2")
 setwd(myWorkingDirectory)
 source("./helpers.R")
+
+# Requires Interaction - copy paste just this line:
+
 connectToTransmart(UrlOfServer)
+
 # (interaction required just above this line)
+
 study <- findStudy(1)
 observations <- loadPlotData(study, matchPatternForFrs, matchPatternForDuration)
 plotIt(observations, 2, 200)
@@ -40,7 +45,8 @@ load(saveLoadFile)
 require("ggplot2")
 setwd(myWorkingDirectory)
 source("./helpers.R")
-plotIt(observations, 2, 200)
+
+plotIt(observations, 3, 120)
 
 # --- Script Steps 
 
